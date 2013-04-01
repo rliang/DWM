@@ -1,4 +1,4 @@
-DWM-patches
+DWM
 ===========
 
-Personal DWM patches.
+Personal DWM setup.
