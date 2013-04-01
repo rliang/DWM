@@ -1,0 +1,42 @@
+--- config.def.h.orig	2011-12-19 13:02:46.000000000 -0200
++++ config.def.h	2013-03-31 21:58:34.651707979 -0300
+@@ -12,6 +12,7 @@
+ static const unsigned int snap      = 32;       /* snap pixel */
+ static const Bool showbar           = True;     /* False means no bar */
+ static const Bool topbar            = True;     /* False means bottom bar */
++static const unsigned int flw       = 16/3;     /* Focus line width */
++static const unsigned int fld       = 16/2;     /* Focus line distance from window */
+ 
+ /* tagging */
+ static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+--- dwm.c.orig	2013-03-31 20:50:30.495486487 -0300
++++ dwm.c	2013-03-31 22:09:03.496415914 -0300
+@@ -310,6 +310,7 @@
+ static int screen;
+ static int sw, sh;           /* X display screen geometry width, height */
+ static int bh, blw = 0;      /* bar geometry */
++static int flx, fly, flh;
+ static int (*xerrorxlib)(Display *, XErrorEvent *);
+ static unsigned int numlockmask = 0;
+ static void (*handler[LASTEvent]) (XEvent *) = {
+@@ -969,6 +970,11 @@
+ 		attachstack(c);
+ 		grabbuttons(c, True);
+ 		XSetWindowBorder(dpy, c->win, dc.sel[ColBorder]);
++		XClearArea(dpy, root, flx, fly, flw, flh, False);
++		flx = c->x == 0 ? c->x + c->w + fld - flw : c->x - fld;
++		fly = c->y; flh = c->h;
++		XSetForeground(dpy, dc.gc, dc.sel[ColBorder]);
++		XFillRectangle(dpy, root, dc.gc, flx, fly, flw, flh);
+ 		setfocus(c);
+ 	}
+ 	else
+@@ -1893,7 +1899,7 @@
+ tile(Monitor *m) {
+ 	unsigned int i, n, h, mw, my, ty;
+ 	Client *c;
+-
++	XClearArea(dpy, root, flx, fly, flw, flh, False);
+ 	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+ 	if(n == 0)
+ 		return;

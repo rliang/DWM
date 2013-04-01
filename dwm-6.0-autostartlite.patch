@@ -1,0 +1,17 @@
+--- dwm.c.orig	2013-03-31 20:50:30.495486487 -0300
++++ dwm.c	2013-04-01 16:40:02.707699238 -0300
+@@ -2459,7 +2452,7 @@
+ 	checkotherwm();
+ 	setup();
+ 	scan();
++	system(autostart);
+ 	run();
+ 	cleanup();
+ 	XCloseDisplay(dpy);
+--- config.def.h.orig	2011-12-19 13:02:46.000000000 -0200
++++ config.def.h	2013-04-01 17:38:37.045034977 -0300
+@@ -103,3 +107,4 @@
+ 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
+ };
+ 
++static const char autostart[] = "dropboxd & \n deluge &"
