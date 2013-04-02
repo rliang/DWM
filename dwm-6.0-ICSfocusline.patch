@@ -16,7 +16,7 @@
  static int screen;
  static int sw, sh;           /* X display screen geometry width, height */
  static int bh, blw = 0;      /* bar geometry */
-+static int flx, fly, flh;
++static int flx, fly, fll;
  static int (*xerrorxlib)(Display *, XErrorEvent *);
  static unsigned int numlockmask = 0;
  static void (*handler[LASTEvent]) (XEvent *) = {
@@ -24,12 +24,12 @@
  		attachstack(c);
  		grabbuttons(c, True);
  		XSetWindowBorder(dpy, c->win, dc.sel[ColBorder]);
-+		XClearArea(dpy, root, flx, fly, flt, flh, False);
++		XClearArea(dpy, root, flx, fly, flt, fll, False);
 +		flx = c->x == 0 ? c->x + c->w + fld - flt : c->x - fld;
-+		flh = (c->h * fls) / 100;
-+		fly = c->y + (c->h - flh) / 2;
++		fll = (c->h * fls) / 100;
++		fly = c->y + (c->h - fll) / 2;
 +		XSetForeground(dpy, dc.gc, dc.sel[ColBorder]);
-+		XFillRectangle(dpy, root, dc.gc, flx, fly, flt, flh);
++		XFillRectangle(dpy, root, dc.gc, flx, fly, flt, fll);
  		setfocus(c);
  	}
  	else
@@ -38,7 +38,7 @@
  	unsigned int i, n, h, mw, my, ty;
  	Client *c;
 -
-+	XClearArea(dpy, root, flx, fly, flt, flh, False);
++	XClearArea(dpy, root, flx, fly, flt, fll, False);
  	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
  	if(n == 0)
  		return;
