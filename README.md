@@ -11,4 +11,4 @@ DWM
 * `centertags`: Custom bar layout, puts tags on center.
 * `centerstatus`: Essentially the same, but with the status text on center.
 * `toppadding`: Adds a gap between the bar and tiled windows.
-* `custom*`: Custom setup.
+* `custom`: Personal setup.
