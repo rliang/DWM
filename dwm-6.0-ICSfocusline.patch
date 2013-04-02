@@ -1,6 +1,6 @@
 --- config.def.h.orig	2011-12-19 13:02:46.000000000 -0200
 +++ config.def.h	2013-03-31 21:58:34.651707979 -0300
-@@ -12,6 +12,8 @@
+@@ -12,6 +12,9 @@
  static const unsigned int snap      = 32;       /* snap pixel */
  static const Bool showbar           = True;     /* False means no bar */
  static const Bool topbar            = True;     /* False means bottom bar */
