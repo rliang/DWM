@@ -1,0 +1,56 @@
+--- config.def.h.orig	2011-12-19 13:02:46.000000000 -0200
++++ config.def.h	2013-04-06 13:58:34.886954410 -0300
+@@ -63,10 +63,10 @@
+ 	{ MODKEY,                       XK_Return, zoom,           {0} },
+ 	{ MODKEY,                       XK_Tab,    view,           {0} },
+ 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
+-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
+-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
+-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+-	{ MODKEY,                       XK_space,  setlayout,      {0} },
++	{ MODKEY,                       XK_t,      togglelayout,   {.v = &layouts[0]} },
++	{ MODKEY,                       XK_f,      togglelayout,   {.v = &layouts[1]} },
++	{ MODKEY,                       XK_m,      togglelayout,   {.v = &layouts[2]} },
++	{ MODKEY,                       XK_space,  togglelayout,   {0} },
+ 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
+ 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
+ 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
+--- dwm.c.orig	2011-12-19 13:02:46.000000000 -0200
++++ dwm.c	2013-04-06 14:19:09.219200468 -0300
+@@ -230,6 +230,7 @@
+ static void tile(Monitor *);
+ static void togglebar(const Arg *arg);
+ static void togglefloating(const Arg *arg);
++static void togglelayout(const Arg *arg);
+ static void toggletag(const Arg *arg);
+ static void toggleview(const Arg *arg);
+ static void unfocus(Client *c, Bool setfocus);
+@@ -283,6 +284,8 @@
+ static DC dc;
+ static Monitor *mons = NULL, *selmon = NULL;
+ static Window root;
++static const Layout *prevlay = NULL;
++static const Layout *curlay = NULL;
+ 
+ /* configuration, allows nested code to access above variables */
+ #include "config.h"
+@@ -1747,6 +1750,19 @@
+ }
+ 
+ void
++togglelayout(const Arg *arg) {
++	if (arg->v == curlay) {
++		curlay = prevlay;
++		prevlay = arg->v;
++	} else {
++		prevlay = curlay;
++		curlay = arg->v;
++	}
++	Arg l = {.v = curlay};
++	setlayout(&l);
++}
++
++void
+ toggletag(const Arg *arg) {
+ 	unsigned int newtags;
+ 
